@@ -159,7 +159,7 @@ const RevisionListItem = ({ item, document, ...rest }: Props) => {
 };
 
 const Meta = styled.div`
-  ${ellipsis()})
+  ${ellipsis()}
 `;
 
 const IconWrapper = styled(Text)`

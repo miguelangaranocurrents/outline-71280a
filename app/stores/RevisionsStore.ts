@@ -1,4 +1,5 @@
 import { type JSONObject } from "@shared/types";
+import { RevisionHelper } from "@shared/utils/RevisionHelper";
 import type RootStore from "~/stores/RootStore";
 import Store from "~/stores/base/Store";
 import Revision from "~/models/Revision";
@@ -39,6 +40,11 @@ export default class RevisionsStore extends Store<Revision> {
    */
   fetchLatest = async (documentId: string) => {
     const res = await client.post(`/revisions.info`, { documentId });
-    return this.add(res.data);
+    // The latest revision is looked up by its deterministic id (see DataLoader),
+    // so store it under that key rather than whichever id the server responded with.
+    return this.add({
+      ...res.data,
+      id: RevisionHelper.latestId(documentId),
+    });
   };
 }
